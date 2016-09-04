@@ -1,0 +1,83 @@
+<div ng-controller="orderDetailCtrl as vm" class="bg-gray p-b-lg" style="min-height:100%;position: absolute;width: 100%;">
+    <div class="text-center p-a-lg">
+        <span class="text-muted" style="font-size: large">中精香港</span><br>
+        <span class="text-muted" style="font-size: x-large">訂單詳情</span>
+    </div>
+    <div class="container-fluid p-x-lg" >
+        <div ng-if="!vm.isLoading && !vm.notFound">
+            <ul class="nav nav-tabs"  ng-init="vm.isActive=1" style="cursor: pointer">
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{'active':vm.isActive==1}" ng-click="vm.isActive=1">保險信息</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" ng-class="{'active':vm.isActive==2}" ng-click="vm.isActive=2">被保人信息</a>
+                </li>
+                <li class="nav-item" ng-if="vm.orderInfo.age<18">
+                    <a class="nav-link" ng-class="{'active':vm.isActive==2.5}" ng-click="vm.isActive=2.5">保單持有人信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{'active':vm.isActive==3}" ng-click="vm.isActive=3">通訊信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{'active':vm.isActive==4}" ng-click="vm.isActive=4">問卷信息</a>
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped" ng-if="vm.isActive==1">
+                        <tr><td>保險名稱</td><td>{{vm.orderInfo.product}}</td></tr>
+                        <tr><td>生效日期</td><td>{{vm.orderInfo.startDay}}</td></tr>
+                        <tr><td>終止日期</td><td>{{vm.orderInfo.endDay}}</td></tr>
+                        <tr><td>保額</td><td>{{vm.orderInfo.coverage}}</td></tr>
+                        <tr><td>受益人</td><td>{{vm.orderInfo.beneficiary}}</td></tr>
+                        <tr><td>訂單狀態</td><td>{{vm.orderInfo.status}}</td></tr>
+
+                    </table>
+                    <table class="table table-striped" ng-if="vm.isActive==2">
+                        <tr><td>英文姓名</td><td>{{vm.orderInfo.recognizeeNameEn}}</td></tr>
+                        <tr><td>中文姓名</td><td>{{vm.orderInfo.recognizeeNameCn}}</td></tr>
+                        <tr><td>證件類型</td><td>{{vm.orderInfo.recognizeeCertificateType}}</td></tr>
+                        <tr><td>證件號碼</td><td>{{vm.orderInfo.recognizeeCertificateNumber}}</td></tr>
+                        <tr><td>性別</td><td>{{vm.orderInfo.recognizeeSex}}</td></tr>
+                        <tr><td>出生日期</td><td>{{vm.orderInfo.recognizeeBirth}}</td></tr>
+                        <tr><td>吸煙狀態</td><td>{{vm.orderInfo.smoke}}</td></tr>
+                    </table>
+                    <table class="table table-striped" ng-if="vm.isActive==2.5">
+                        <tr><td>與投保人關係</td><td>{{vm.orderInfo.guardianRelationship}}</td></tr>
+                        <tr><td>英文姓名</td><td>{{vm.orderInfo.guardianNameEn}}</td></tr>
+                        <tr><td>中文姓名</td><td>{{vm.orderInfo.guardianNameCn}}</td></tr>
+                        <tr><td>證件類型</td><td>{{vm.orderInfo.guardianCertificateType}}</td></tr>
+                        <tr><td>證件號碼</td><td>{{vm.orderInfo.guardianCertificateNumber}}</td></tr>
+                        <tr><td>性別</td><td>{{vm.orderInfo.guardianSex}}</td></tr>
+                        <tr><td>出生日期</td><td>{{vm.orderInfo.guardianBirth}}</td></tr>
+                    </table>
+                    <table class="table table-striped" ng-if="vm.isActive==3">
+                        <tr><td>手機號</td><td>{{vm.orderInfo.tel}}</td></tr>
+                        <tr><td>電郵</td><td>{{vm.orderInfo.email}}</td></tr>
+                        <tr><td>地址</td><td>{{vm.orderInfo.address}}</td></tr>
+                    </table>
+                    <table class="table table-striped" ng-if="vm.isActive==4">
+                        <tr ng-repeat="row in vm.questions"><td><p>{{$index}}.{{row}}</p></td><td>{{vm.orderInfo.questions[$index]}}</td></tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div  class="text-center" ng-if="vm.isLoading">
+            <span class="text-muted">查詢中</span>
+        </div>
+        <div class="text-center" ng-if="vm.notFound">
+            <span class="text-muted">{{vm.notFound}}</span>
+        </div>
+        <div class="row text-center p-x-lg" ng-if="vm.orderInfo.status=='待付款'">
+            <input type="text" class="form-control" ng-model="vm.orderInfo.policyNumber">
+
+        </div>
+        <div class="row text-center">
+            <button ui-sref="orderList" class="btn btn-secondary">返回列表</button>
+            <button type="button" ng-if="vm.orderInfo.status=='待批核'" ng-click="vm.confirm()" class="btn btn-success">審批通過</button>
+            <button type="button" ng-if="vm.orderInfo.status=='待付款'" ng-click="vm.pay()" class="btn btn-success">付款完成</button>
+
+        </div>
+    </div>
+</div>

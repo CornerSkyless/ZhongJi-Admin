@@ -1,0 +1,58 @@
+<div ng-controller="orderListCtrl as vm" class="bg-gray" style="height: 100%;position: fixed;width: 100%;">
+    <div class="text-center p-a-lg">
+        <span class="text-muted" style="font-size: large">中精香港</span><br>
+        <span class="text-muted" style="font-size: x-large">個人重大疾病保險訂單列表</span>
+    </div>
+    <div class="container-fluid" style="background-color: #ffffff" >
+        <div ng-if="vm.isLoading" class="col-md-12 p-a-lg text-center">
+            <span class="text-muted" style="font-size: large">列表加載中</span><br>
+        </div>
+        <div ng-if="!vm.isLoading" class="col-md-12  text-center" st-table="vm.displayCollection" st-safe-src="vm.rowCollection">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead >
+                    <tr>
+                        <th class="text-center" st-sort="recognizeeNameEn">被保人英文名</th>
+                        <th class="text-center" st-sort="recognizeeNameCn">被保人中文名</th>
+                        <th class="text-center" st-sort="recognizeeCertificateNumber">被保人證件號碼</th>
+                        <th class="text-center" st-sort="coverage">保額</th>
+                        <th class="text-center" st-sort="price">年交保險費</th>
+                        <th class="text-center" st-sort="status">訂單狀態</th>
+                    </tr>
+                    <tr>
+                        <th class="p-x-md"><input st-search="recognizeeNameEn" placeholder="檢索" class="input-sm form-control" type="search"/></th>
+                        <th class="p-x-md"><input st-search="recognizeeNameCn" placeholder="檢索" class="input-sm form-control" type="search"/></th>
+                        <th class="p-x-md"><input st-search="recognizeeCertificateNumber" placeholder="檢索" class="input-sm form-control" type="search"/></th>
+                        <th class="p-x-md"><input st-search="coverage" placeholder="檢索" class="input-sm form-control" type="search"/></th>
+                        <th class="p-x-md"><input st-search="price" placeholder="檢索" class="input-sm form-control" type="search"/></th>
+                        <th class="p-x-md" style="width: 100px;">
+                            <select st-search="status">
+                                <option value="">所有</option>
+                                <option ng-repeat="row in vm.rowCollection | unique:'status'" value="{{row.status}}">{{row.status}}</option>
+                            </select>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in vm.displayCollection" ng-click="vm.go('orderDetail',{orderId:row.orderId})" style="cursor: pointer;">
+                        <td>{{row.recognizeeNameEn}}</td>
+                        <td>{{row.recognizeeNameCn}}</td>
+                        <td>{{row.recognizeeCertificateNumber}}</td>
+                        <td>{{row.coverage}}</td>
+                        <td>HKD {{row.price}}</td>
+                        <td>{{row.status}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row text-center">
+                <button type="button" ng-click="vm.csv()" ng-if="!vm.finishCsv" ng-disabled="vm.isFinishing" class="btn btn-secondary">導出Excel</button>
+                <a type="" ng-href="{{vm.href}}" ng-if="vm.finishCsv" class="btn btn-secondary">下載</a>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
