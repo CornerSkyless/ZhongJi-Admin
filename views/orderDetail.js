@@ -72,12 +72,12 @@
                     if(response.result){
                         vm.query();
                     }else {
-                        console.error(response.errorInfo);
+                        alert(response.errorInfo);
                     }
 
                 })
                 .error(function (error) {
-                    console.error(error);
+                    alert(error);
                 })
         };
         
@@ -89,12 +89,12 @@
                     if(response.result){
                         vm.query();
                     }else {
-                        console.error(response.errorInfo);
+                        alert(response.errorInfo);
                     }
 
                 })
                 .error(function (error) {
-                    console.error(error);
+                    alert(error);
                 })
         }
     }

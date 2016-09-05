@@ -26,11 +26,11 @@
                         vm.isLoading = false;
 
                     }else {
-                        console.error(response.errorInfo);
+                        alert(response.errorInfo);
                     }
                 })
                 .error(function (error) {
-                    console.error(error);
+                    alert(error);
                 })
         }
 
@@ -49,11 +49,11 @@
                       vm.finishCsv = true;
 
                   }else {
-                      console.error(response.errorInfo);
+                      alert(response.errorInfo);
                   }
               })
               .error(function (error) {
-                  console.error(error);
+                  alert(error);
               })
         }
     }
